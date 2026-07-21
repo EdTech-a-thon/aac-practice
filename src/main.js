@@ -129,7 +129,7 @@ function startRound() {
         ${round.choices.map((choice) => choice === null ? `
           <button class="choice blank-choice" data-choice="blank" aria-label="Empty choice"></button>` : `
           <button class="choice" data-choice="${choice}" aria-label="${titleCase(choice)}">
-            <img src="${imagePath(round.topic, choice)}" alt="${titleCase(choice)}" />
+            <div class="choice-media"><img src="${imagePath(round.topic, choice)}" alt="${titleCase(choice)}" /></div>
           </button>`).join("")}
       </div>
     </div>
