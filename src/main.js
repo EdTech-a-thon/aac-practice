@@ -11,12 +11,7 @@ const topics = {
   Toys: ["baby", "ball", "bike", "bubbles", "dinosaur", "food", "lego", "playdoh", "shovel", "train", "truck"],
 };
 
-const imageExtensions = {
-  Body: { arm: "png", ear: "png", hand: "jpg", brain: "png" },
-  Food: { banana: "png", broccoli: "png" },
-  People: { astronaut: "svg", scientist: "svg", dancer: "png", builder: "png", cook: "png", doctor: "png", farmer: "png", firefighter: "png", painter: "png", pilot: "jpg" },
-  School: { backpack: "png", bus: "png", crayons: "png", desk: "png", eraser: "png", glue: "png", paper: "png", pencil: "png", scissors: "png", tape: "png" },
-};
+const svgImages = new Set(["People/astronaut", "People/scientist"]);
 
 const reinforce = ["bubbles", "fireworks", "sparkles", "spin", "stars"];
 const app = document.querySelector("#app");
@@ -30,7 +25,8 @@ function titleCase(word) {
 }
 
 function imagePath(topic, word) {
-  const extension = imageExtensions[topic]?.[word] ?? (topic === "School" ? "png" : "jpg");
+  const key = `${topic}/${word}`;
+  const extension = svgImages.has(key) ? "svg" : "webp";
   return `/${topic}/${word}.${extension}`;
 }
 
