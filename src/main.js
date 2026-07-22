@@ -2,6 +2,7 @@ import "./style.css";
 
 const topics = {
   Animals: ["bear", "bird", "butterfly", "cat", "dog", "elephant", "fish", "frog", "monkey", "pig", "sheep", "turtle"],
+  Colors: ["blue", "brown", "green", "gray", "orange", "pink", "purple", "red", "yellow"],
   Food: ["apple", "banana", "blueberries", "bread", "broccoli", "carrot", "cookie", "egg", "rice", "water"],
   Body: ["arm", "brain", "ear", "eyes", "feet", "hair", "hand", "teeth", "tongue"],
   Clothing: ["pants", "shirt", "shoes", "socks", "sunglasses"],
@@ -16,9 +17,14 @@ const svgImages = new Set(["People/astronaut", "People/scientist"]);
 const reinforce = ["bubbles", "fireworks", "sparkles", "spin", "stars"];
 const app = document.querySelector("#app");
 let settings = { level: 1, topic: "Random" };
+let gameTopic;
 let hintTimer;
 let reinforcementTimer;
 let speakingTimer;
+let nextRound;
+let preparedFirstRound;
+let preloadedQuestionImages = [];
+let preloadedCelebrationMedia = [];
 
 function titleCase(word) {
   return word.replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -28,6 +34,45 @@ function imagePath(topic, word) {
   const key = `${topic}/${word}`;
   const extension = svgImages.has(key) ? "svg" : "webp";
   return `/${topic}/${word}.${extension}`;
+}
+
+function preloadNextRound(round) {
+  preloadedQuestionImages = round.choices
+    .filter(Boolean)
+    .map((choice) => {
+      const image = new Image();
+      image.src = imagePath(round.topic, choice);
+      return image;
+    });
+}
+
+function prepareNextRound() {
+  nextRound = createRound(gameTopic);
+  preloadNextRound(nextRound);
+}
+
+function prepareFirstRound() {
+  const topic = settings.topic === "Random" ? randomItem(Object.keys(topics)) : settings.topic;
+  preparedFirstRound = createRound(topic);
+  preloadNextRound(preparedFirstRound);
+}
+
+function preloadCelebrations() {
+  const folder = "/Reinforcement Sounds and Images";
+
+  preloadedCelebrationMedia = reinforce.flatMap((effect) => {
+    const video = document.createElement("video");
+    const audio = document.createElement("audio");
+
+    video.preload = "auto";
+    video.muted = true;
+    video.src = `${folder}/${effect}.mp4`;
+    audio.preload = "auto";
+    audio.src = `${folder}/${effect} audio.mp3`;
+    video.load();
+    audio.load();
+    return [video, audio];
+  });
 }
 
 function randomItem(items) {
@@ -45,6 +90,18 @@ function clearTimers() {
   window.speechSynthesis?.cancel();
 }
 
+function enterFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  }
+}
+
+function exitFullscreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen?.().catch(() => {});
+  }
+}
+
 function speak(text) {
   window.speechSynthesis?.cancel();
   speakingTimer = window.setTimeout(() => {
@@ -57,6 +114,7 @@ function speak(text) {
 
 function renderSetup() {
   clearTimers();
+  exitFullscreen();
   app.className = "setup-page";
   app.innerHTML = `
     <section class="setup-card" aria-labelledby="page-title">
@@ -81,7 +139,7 @@ function renderSetup() {
         <legend>Picture topic <span>optional</span></legend>
         <label class="select-wrap">
           <select id="topic-select" aria-label="Picture topic">
-            <option value="Random">A little of everything</option>
+            <option value="Random" ${settings.topic === "Random" ? "selected" : ""}>Random</option>
             ${Object.keys(topics).map((topic) => `<option value="${topic}" ${settings.topic === topic ? "selected" : ""}>${topic}</option>`).join("")}
           </select>
         </label>
@@ -99,14 +157,15 @@ function renderSetup() {
   });
   app.querySelector("#topic-select").addEventListener("change", (event) => {
     settings.topic = event.target.value;
+    prepareFirstRound();
   });
   app.querySelector("#start-game").addEventListener("click", startRound);
+  prepareFirstRound();
 }
 
-function createRound() {
-  const topic = settings.topic === "Random" ? randomItem(Object.keys(topics)) : settings.topic;
+function createRound(topic) {
   const correct = randomItem(topics[topic]);
-  const choiceCount = settings.level === 1 ? 1 : settings.level === 5 ? 4 : settings.level;
+  const choiceCount = settings.level === 1 ? 1 : settings.level - 1;
   const distractors = shuffle(topics[topic].filter((item) => item !== correct)).slice(0, choiceCount - 1);
   const choices = settings.level === 2 ? [correct, null] : [correct, ...distractors];
   return { topic, correct, choices: shuffle(choices) };
@@ -114,7 +173,17 @@ function createRound() {
 
 function startRound() {
   clearTimers();
-  const round = createRound();
+  enterFullscreen();
+  gameTopic = preparedFirstRound?.topic ?? (settings.topic === "Random" ? randomItem(Object.keys(topics)) : settings.topic);
+  nextRound = preparedFirstRound ?? createRound(gameTopic);
+  preparedFirstRound = undefined;
+  startRoundWithTopic();
+}
+
+function startRoundWithTopic() {
+  clearTimers();
+  const round = nextRound ?? createRound(gameTopic);
+  prepareNextRound();
   const prompt = `Touch the ${round.correct}.`;
   app.className = `play-page level-${settings.level}`;
   app.innerHTML = `
@@ -125,15 +194,17 @@ function startRound() {
         ${round.choices.map((choice) => choice === null ? `
           <button class="choice blank-choice" data-choice="blank" aria-label="Empty choice"></button>` : `
           <button class="choice" data-choice="${choice}" aria-label="${titleCase(choice)}">
-            <div class="choice-media"><img src="${imagePath(round.topic, choice)}" alt="${titleCase(choice)}" /></div>
+            <img src="${imagePath(round.topic, choice)}" alt="${titleCase(choice)}" />
           </button>`).join("")}
       </div>
     </div>
     <div class="home-dialog" id="home-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="home-title">
       <section>
         <h2 id="home-title">Leave practice?</h2>
-        <p>This will return to the teacher setup screen.</p>
-        <div><button class="dialog-stay" id="stay-button">Keep playing</button><button class="dialog-home" id="confirm-home">Go Home</button></div>
+        <p>This will return to the teacher setup screen. Type <strong>home</strong> to continue.</p>
+        <label class="home-confirm-label" for="home-confirm-input">Type home</label>
+        <input class="home-confirm-input" id="home-confirm-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" />
+        <div><button class="dialog-stay" id="stay-button">Keep playing</button><button class="dialog-home" id="confirm-home" disabled>Go Home</button></div>
       </section>
     </div>`;
 
@@ -144,9 +215,23 @@ function startRound() {
       else showHint(correctButton);
     });
   });
-  app.querySelector("#home-button").addEventListener("click", () => { app.querySelector("#home-dialog").hidden = false; });
-  app.querySelector("#stay-button").addEventListener("click", () => { app.querySelector("#home-dialog").hidden = true; });
-  app.querySelector("#confirm-home").addEventListener("click", renderSetup);
+  const homeDialog = app.querySelector("#home-dialog");
+  const homeInput = app.querySelector("#home-confirm-input");
+  const confirmHome = app.querySelector("#confirm-home");
+  app.querySelector("#home-button").addEventListener("click", () => {
+    homeInput.value = "";
+    confirmHome.disabled = true;
+    homeDialog.hidden = false;
+    homeInput.focus();
+  });
+  homeInput.addEventListener("input", () => {
+    confirmHome.disabled = homeInput.value.trim().toLowerCase() !== "home";
+  });
+  homeInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !confirmHome.disabled) renderSetup();
+  });
+  app.querySelector("#stay-button").addEventListener("click", () => { homeDialog.hidden = true; });
+  confirmHome.addEventListener("click", renderSetup);
 
   speak(prompt);
   hintTimer = window.setTimeout(() => showHint(correctButton), 5000);
@@ -169,7 +254,8 @@ function showReinforcement() {
     <p>Wonderful!</p>
     <audio autoplay><source src="${folder}/${effect} audio.mp3" type="audio/mpeg" /></audio>`;
   app.append(overlay);
-  reinforcementTimer = window.setTimeout(startRound, 5000);
+  reinforcementTimer = window.setTimeout(startRoundWithTopic, 5000);
 }
 
+preloadCelebrations();
 renderSetup();
