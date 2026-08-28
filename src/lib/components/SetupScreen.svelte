@@ -123,9 +123,9 @@
   .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding: 14px 42px 14px 15px; background: #fff; color: #18312d; font-weight: 600; }
   .select-wrap::after { content: "⌄"; position: absolute; right: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
 
-  .timing-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .timing-option { display: grid; gap: 9px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 13px 15px; color: #18312d; font-weight: 700; }
-  .timing-option.disabled { color: #788a85; background: #f5f7f6; }
+  .timing-options { display: grid; gap: 14px; }
+  .timing-option { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #18312d; font-weight: 700; }
+  .timing-option.disabled { color: #788a85; }
   .timing-heading { display: flex; align-items: center; gap: 9px; }
   .timing-heading input { width: 19px; height: 19px; accent-color: #287769; }
   .number-field { display: flex; align-items: center; gap: 9px; color: #60736e; font-size: 14px; font-weight: 600; }
@@ -140,6 +140,5 @@
   @media (max-width: 560px) {
     .level-option { grid-template-columns: auto 1fr; }
     .option-preview { grid-column: 2; width: 100%; height: 92px; }
-    .timing-options { grid-template-columns: 1fr; }
   }
 </style>
