@@ -1,6 +1,11 @@
 // The teacher's setup choices. They outlive a practice session so returning
 // Home lands back on the same level and topic.
-export const settings = $state({ level: 1, topic: "Random" });
+export const settings = $state({
+  level: 1,
+  topic: "Random",
+  rewardSeconds: 5,
+  hintSeconds: 5,
+});
 
 export const levels = [
   { value: 1, title: "One choice", detail: "One clear picture" },

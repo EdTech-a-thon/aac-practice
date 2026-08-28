@@ -65,6 +65,26 @@
       </div>
     </fieldset>
 
+    <fieldset>
+      <legend>Choose timing</legend>
+      <div class="timing-options">
+        <label class="timing-option">
+          <span>Visual reward</span>
+          <span class="number-field">
+            <input type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} />
+            <span>seconds</span>
+          </span>
+        </label>
+        <label class="timing-option">
+          <span>Wait before yellow hint</span>
+          <span class="number-field">
+            <input type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} />
+            <span>seconds</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
     <button class="start-button" onclick={start}>Start practice <span aria-hidden="true">→</span></button>
     <p class="setup-note">The activity continues until you choose Home.</p>
   </section>
@@ -97,6 +117,11 @@
   .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding: 14px 42px 14px 15px; background: #fff; color: #18312d; font-weight: 600; }
   .select-wrap::after { content: "⌄"; position: absolute; right: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
 
+  .timing-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .timing-option { display: grid; gap: 9px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 13px 15px; color: #18312d; font-weight: 700; }
+  .number-field { display: flex; align-items: center; gap: 9px; color: #60736e; font-size: 14px; font-weight: 600; }
+  .number-field input { width: 72px; border: 1px solid #b8cbc4; border-radius: 9px; padding: 8px 10px; color: #18312d; background: #fff; font: inherit; font-size: 16px; }
+
   .start-button { width: 100%; border: 0; border-radius: 14px; padding: 17px; background: #f6c950; color: #172033; font-weight: 700; font-size: 18px; box-shadow: 0 5px 0 #b88d25; }
   .start-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88d25; }
   .start-button span { margin-left: 8px; font-size: 24px; vertical-align: -1px; }
@@ -105,5 +130,6 @@
   @media (max-width: 560px) {
     .level-option { grid-template-columns: auto 1fr; }
     .option-preview { grid-column: 2; width: 100%; height: 92px; }
+    .timing-options { grid-template-columns: 1fr; }
   }
 </style>

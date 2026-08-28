@@ -7,9 +7,6 @@
   import { imagePath, titleCase } from "$lib/topics.js";
   import { cancelSpeech, speak } from "$lib/screen.js";
 
-  const HINT_DELAY = 5000;
-  const CELEBRATION_DELAY = 5000;
-
   let { first, onhome } = $props();
 
   // A session stays on one topic, even when the teacher picked Random.
@@ -27,6 +24,11 @@
 
   let prompt = $derived(`Touch the ${round.correct}.`);
 
+  function milliseconds(value) {
+    const seconds = Math.min(30, Math.max(1, Number(value) || 5));
+    return seconds * 1000;
+  }
+
   function clearTimers() {
     window.clearTimeout(hintTimer);
     window.clearTimeout(celebrationTimer);
@@ -41,7 +43,7 @@
     nextRound = createRound(gameTopic, settings.level);
     preloadRound(nextRound);
     speak(`Touch the ${next.correct}.`);
-    hintTimer = window.setTimeout(showHint, HINT_DELAY);
+    hintTimer = window.setTimeout(showHint, milliseconds(settings.hintSeconds));
   }
 
   // Dropping the class and forcing a reflow before re-adding it restarts the
@@ -63,7 +65,7 @@
     effect = randomItem(celebrations);
     celebrationTimer = window.setTimeout(() => {
       beginRound(nextRound ?? createRound(gameTopic, settings.level));
-    }, CELEBRATION_DELAY);
+    }, milliseconds(settings.rewardSeconds));
   }
 
   onMount(() => {
