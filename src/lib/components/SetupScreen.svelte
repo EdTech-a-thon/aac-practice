@@ -71,21 +71,21 @@
         <div class="timing-option" class:disabled={!settings.rewardEnabled}>
           <label class="timing-heading">
             <input type="checkbox" bind:checked={settings.rewardEnabled} />
-            <span>Show a celebration after a correct answer</span>
+            <span>Show visual reward for</span>
           </label>
           <span class="number-field">
             <input aria-label="Visual reward seconds" type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} disabled={!settings.rewardEnabled} />
-            <span>seconds long</span>
+            <span>seconds</span>
           </span>
         </div>
         <div class="timing-option" class:disabled={!settings.hintEnabled}>
           <label class="timing-heading">
             <input type="checkbox" bind:checked={settings.hintEnabled} />
-            <span>Help when there is no answer</span>
+            <span>Provide hint after</span>
           </label>
           <span class="number-field">
             <input aria-label="Yellow hint delay seconds" type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} disabled={!settings.hintEnabled} />
-            <span>seconds before the correct picture shakes and turns yellow</span>
+            <span>seconds</span>
           </span>
         </div>
       </div>
