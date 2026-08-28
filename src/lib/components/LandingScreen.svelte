@@ -1,15 +1,10 @@
 <script>
+  import LevelPreview from "./LevelPreview.svelte";
   import { levels } from "$lib/settings.svelte.js";
+  import { topicNames } from "$lib/topics.js";
 
   let { oncontinue } = $props();
-
-  const previewCells = {
-    1: ["target"],
-    2: ["target", "blank"],
-    3: ["target", "other"],
-    4: ["other", "target", "other"],
-    5: ["other", "target", "other", "other"],
-  };
+  let previewTopic = $state("Animals");
 </script>
 
 <main class="landing-page">
@@ -47,6 +42,15 @@
     <h2 id="how-title">Grow at the learner’s pace</h2>
     <p class="section-intro">Start with one clear picture, then add more choices as the learner becomes ready.</p>
 
+    <label class="topic-preview-select">
+      <span>Preview a topic</span>
+      <select bind:value={previewTopic}>
+        {#each topicNames as topic (topic)}
+          <option value={topic}>{topic}</option>
+        {/each}
+      </select>
+    </label>
+
     <div class="level-roadmap">
       {#each levels as level (level.value)}
         <article class="level-card">
@@ -55,9 +59,7 @@
             <strong>{level.value === 1 ? "Error-less learning" : level.title}</strong>
           </div>
           <div class="mini-screen level-{level.value}" aria-hidden="true">
-            {#each previewCells[level.value] as cell}
-              <span class={cell}>{cell === "target" ? "★" : cell === "other" ? "●" : ""}</span>
-            {/each}
+            <LevelPreview level={level.value} topic={previewTopic} />
           </div>
           <p>{level.detail}</p>
         </article>
@@ -102,18 +104,14 @@
   .how-it-works { padding: 90px max(20px, calc((100% - 1180px) / 2)); background: #f1f7f4; text-align: center; }
   h2 { font-size: clamp(35px, 4.5vw, 54px); }
   .section-intro { max-width: 610px; margin: 16px auto 42px; color: #60736e; font-size: 18px; line-height: 1.5; }
+  .topic-preview-select { width: min(100%, 320px); margin: -20px auto 28px; display: grid; gap: 7px; color: #18312d; font-size: 13px; font-weight: 800; text-align: left; }
+  .topic-preview-select select { width: 100%; border: 2px solid #cbdcd5; border-radius: 12px; padding: 11px 13px; color: #18312d; background: white; font: inherit; }
   .level-roadmap { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; text-align: left; }
   .level-card { min-width: 0; padding: 18px; border: 1px solid #d6e3dd; border-radius: 20px; background: white; }
   .level-heading span, .level-heading strong { display: block; }
   .level-heading span { margin-bottom: 5px; color: #287769; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
   .level-heading strong { min-height: 38px; font-size: 16px; }
   .mini-screen { height: 112px; margin: 14px 0; display: grid; gap: 7px; padding: 9px; border-radius: 13px; background: #edf3f0; }
-  .mini-screen span { display: grid; place-items: center; min-width: 0; min-height: 0; border-radius: 8px; background: white; color: #8aaba2; }
-  .mini-screen .target { color: #8a6818; background: #f8d87e; }
-  .mini-screen .blank { background: #f8faf9; border: 1px dashed #cedbd6; }
-  .level-2, .level-3 { grid-template-columns: repeat(2, 1fr); }
-  .level-4 { grid-template-columns: repeat(3, 1fr); }
-  .level-5 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
   .level-card > p { margin: 0; color: #687b76; font-size: 13px; line-height: 1.4; }
   .steps { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: left; }
   .steps > div { display: flex; gap: 14px; align-items: flex-start; padding: 8px; }

@@ -4,11 +4,12 @@
   import { levels, settings } from "$lib/settings.svelte.js";
   import { topicNames } from "$lib/topics.js";
   import { enterFullscreen, exitFullscreen } from "$lib/screen.js";
+  import LevelPreview from "./LevelPreview.svelte";
 
   let { onstart, onback } = $props();
 
   // Built ahead of the tap so the first round never waits on a download.
-  let prepared;
+  let prepared = $state();
 
   $effect(() => {
     prepared = createRound(pickTopic(settings.topic), settings.level);
@@ -33,23 +34,7 @@
     <p class="intro">A simple, joyful way to practice making choices on a screen.</p>
 
     <fieldset>
-      <legend>Choose a level</legend>
-      <div class="level-list">
-        {#each levels as level (level.value)}
-          <label class="level-option" class:selected={settings.level === level.value}>
-            <input type="radio" name="level" value={level.value} bind:group={settings.level} />
-            <span class="level-number">{level.value}</span>
-            <span>
-              <strong>{level.title}</strong>
-              <small>{level.detail}</small>
-            </span>
-          </label>
-        {/each}
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>Picture topic <span>optional</span></legend>
+      <legend>Choose a picture topic</legend>
       <label class="select-wrap">
         <select aria-label="Picture topic" bind:value={settings.topic}>
           <option value="Random">Random</option>
@@ -60,6 +45,25 @@
       </label>
     </fieldset>
 
+    <fieldset>
+      <legend>Choose a level</legend>
+      <div class="level-list">
+        {#each levels as level (level.value)}
+          <label class="level-option" class:selected={settings.level === level.value}>
+            <input type="radio" name="level" value={level.value} bind:group={settings.level} />
+            <span class="level-number">{level.value}</span>
+            <span class="level-copy">
+              <strong>{level.title}</strong>
+              <small>{level.detail}</small>
+            </span>
+            <div class="option-preview" aria-hidden="true">
+              <LevelPreview level={level.value} topic={prepared?.topic ?? "Animals"} />
+            </div>
+          </label>
+        {/each}
+      </div>
+    </fieldset>
+
     <button class="start-button" onclick={start}>Start practice <span aria-hidden="true">→</span></button>
     <p class="setup-note">The activity continues until you choose Home.</p>
   </section>
@@ -67,7 +71,7 @@
 
 <style>
   .setup-page { min-height: 100svh; display: grid; place-items: center; padding: 28px 18px; background: radial-gradient(circle at 4% 0%, #dcefe8 0, transparent 30rem), radial-gradient(circle at 100% 100%, #fff0c9 0, transparent 28rem), #f8fbf9; }
-  .setup-card { width: min(100%, 640px); background: #fff; border: 1px solid #d5e1dc; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #315d4f1c; }
+  .setup-card { width: min(100%, 760px); background: #fff; border: 1px solid #d5e1dc; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #315d4f1c; }
   .back-button { margin: 0 0 20px; border: 0; padding: 0; color: #287769; background: transparent; font-weight: 700; }
   .brand-mark { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #f6c950; color: #172033; font-size: 25px; }
   .eyebrow { margin: 22px 0 5px; text-transform: uppercase; letter-spacing: .13em; font-size: 12px; font-weight: 700; color: #91c9d6; }
@@ -76,10 +80,9 @@
 
   fieldset { border: 0; padding: 0; margin: 0 0 28px; }
   legend { padding: 0; margin: 0 0 12px; font-weight: 700; color: #18312d; }
-  legend span { color: #788a85; font-weight: 400; font-size: 14px; }
 
   .level-list { display: grid; gap: 8px; }
-  .level-option { display: flex; align-items: center; gap: 14px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 10px 13px; color: #60736e; cursor: pointer; transition: .15s ease; }
+  .level-option { display: grid; grid-template-columns: auto minmax(150px, 1fr) 116px; align-items: center; gap: 14px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 10px 13px; color: #60736e; cursor: pointer; transition: .15s ease; }
   .level-option:hover, .level-option.selected { border-color: #4d9b8c; background: #eef7f3; }
   .level-option input { position: absolute; opacity: 0; }
   .level-number { display: grid; place-items: center; flex: 0 0 auto; width: 33px; height: 33px; border-radius: 50%; background: #e5eeea; color: #315d54; font-weight: 700; }
@@ -87,6 +90,7 @@
   .level-option strong, .level-option small { display: block; }
   .level-option strong { color: #18312d; font-size: 15px; }
   .level-option small { margin-top: 2px; font-size: 13px; }
+  .option-preview { display: block; width: 116px; height: 64px; padding: 5px; border-radius: 10px; background: #e9f0ed; }
 
   .select-wrap { display: block; position: relative; }
   .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding: 14px 42px 14px 15px; background: #fff; color: #18312d; font-weight: 600; }
@@ -96,4 +100,9 @@
   .start-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88d25; }
   .start-button span { margin-left: 8px; font-size: 24px; vertical-align: -1px; }
   .setup-note { margin: 20px 0 0; text-align: center; color: #788a85; font-size: 13px; }
+
+  @media (max-width: 560px) {
+    .level-option { grid-template-columns: auto 1fr; }
+    .option-preview { grid-column: 2; width: 100%; height: 92px; }
+  }
 </style>
