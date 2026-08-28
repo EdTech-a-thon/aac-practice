@@ -5,7 +5,7 @@
   import { topicNames } from "$lib/topics.js";
   import { enterFullscreen, exitFullscreen } from "$lib/screen.js";
 
-  let { onstart } = $props();
+  let { onstart, onback } = $props();
 
   // Built ahead of the tap so the first round never waits on a download.
   let prepared;
@@ -26,6 +26,7 @@
 
 <main class="setup-page">
   <section class="setup-card" aria-labelledby="page-title">
+    <button class="back-button" onclick={onback} aria-label="Back to welcome page">← Back</button>
     <div class="brand-mark" aria-hidden="true">✦</div>
     <p class="eyebrow">AAC touch practice</p>
     <h1 id="page-title">Touch &amp; Choose</h1>
@@ -65,33 +66,34 @@
 </main>
 
 <style>
-  .setup-page { min-height: 100svh; display: grid; place-items: center; padding: 28px 18px; background: radial-gradient(circle at 4% 0%, #1d4250 0, transparent 30rem), radial-gradient(circle at 100% 100%, #46351b 0, transparent 28rem), #131313; }
-  .setup-card { width: min(100%, 640px); background: #1d222b; border: 1px solid #3a4350; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #00000066; }
+  .setup-page { min-height: 100svh; display: grid; place-items: center; padding: 28px 18px; background: radial-gradient(circle at 4% 0%, #dcefe8 0, transparent 30rem), radial-gradient(circle at 100% 100%, #fff0c9 0, transparent 28rem), #f8fbf9; }
+  .setup-card { width: min(100%, 640px); background: #fff; border: 1px solid #d5e1dc; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #315d4f1c; }
+  .back-button { margin: 0 0 20px; border: 0; padding: 0; color: #287769; background: transparent; font-weight: 700; }
   .brand-mark { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #f6c950; color: #172033; font-size: 25px; }
   .eyebrow { margin: 22px 0 5px; text-transform: uppercase; letter-spacing: .13em; font-size: 12px; font-weight: 700; color: #91c9d6; }
-  h1 { margin: 0; color: #fff; font-size: clamp(35px, 7vw, 52px); line-height: 1.05; letter-spacing: -.045em; }
-  .intro { margin: 14px 0 31px; color: #c2cad5; font-size: 17px; line-height: 1.45; }
+  h1 { margin: 0; color: #18312d; font-size: clamp(35px, 7vw, 52px); line-height: 1.05; letter-spacing: -.045em; }
+  .intro { margin: 14px 0 31px; color: #60736e; font-size: 17px; line-height: 1.45; }
 
   fieldset { border: 0; padding: 0; margin: 0 0 28px; }
-  legend { padding: 0; margin: 0 0 12px; font-weight: 700; color: #f5f7fb; }
-  legend span { color: #a5afbd; font-weight: 400; font-size: 14px; }
+  legend { padding: 0; margin: 0 0 12px; font-weight: 700; color: #18312d; }
+  legend span { color: #788a85; font-weight: 400; font-size: 14px; }
 
   .level-list { display: grid; gap: 8px; }
-  .level-option { display: flex; align-items: center; gap: 14px; border: 2px solid #3a4350; border-radius: 14px; padding: 10px 13px; color: #c2cad5; cursor: pointer; transition: .15s ease; }
-  .level-option:hover, .level-option.selected { border-color: #68b6c7; background: #243741; }
+  .level-option { display: flex; align-items: center; gap: 14px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 10px 13px; color: #60736e; cursor: pointer; transition: .15s ease; }
+  .level-option:hover, .level-option.selected { border-color: #4d9b8c; background: #eef7f3; }
   .level-option input { position: absolute; opacity: 0; }
-  .level-number { display: grid; place-items: center; flex: 0 0 auto; width: 33px; height: 33px; border-radius: 50%; background: #343d4b; color: #f5f7fb; font-weight: 700; }
-  .selected .level-number { background: #68b6c7; color: #172033; }
+  .level-number { display: grid; place-items: center; flex: 0 0 auto; width: 33px; height: 33px; border-radius: 50%; background: #e5eeea; color: #315d54; font-weight: 700; }
+  .selected .level-number { background: #287769; color: #fff; }
   .level-option strong, .level-option small { display: block; }
-  .level-option strong { color: #f5f7fb; font-size: 15px; }
+  .level-option strong { color: #18312d; font-size: 15px; }
   .level-option small { margin-top: 2px; font-size: 13px; }
 
   .select-wrap { display: block; position: relative; }
-  .select-wrap select { width: 100%; appearance: none; border: 2px solid #3a4350; border-radius: 13px; padding: 14px 42px 14px 15px; background: #252c36; color: #f5f7fb; font-weight: 600; }
-  .select-wrap::after { content: "⌄"; position: absolute; right: 16px; top: 8px; color: #91c9d6; font-size: 23px; pointer-events: none; }
+  .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding: 14px 42px 14px 15px; background: #fff; color: #18312d; font-weight: 600; }
+  .select-wrap::after { content: "⌄"; position: absolute; right: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
 
   .start-button { width: 100%; border: 0; border-radius: 14px; padding: 17px; background: #f6c950; color: #172033; font-weight: 700; font-size: 18px; box-shadow: 0 5px 0 #b88d25; }
   .start-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88d25; }
   .start-button span { margin-left: 8px; font-size: 24px; vertical-align: -1px; }
-  .setup-note { margin: 20px 0 0; text-align: center; color: #a5afbd; font-size: 13px; }
+  .setup-note { margin: 20px 0 0; text-align: center; color: #788a85; font-size: 13px; }
 </style>

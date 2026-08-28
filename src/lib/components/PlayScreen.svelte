@@ -105,9 +105,9 @@
 </main>
 
 <style>
-  .play-page { min-height: 100svh; background: #131313; overflow: hidden; touch-action: manipulation; user-select: none; }
+  .play-page { min-height: 100svh; background: #eef5f2; overflow: hidden; touch-action: manipulation; user-select: none; }
   .round { height: 100svh; display: grid; grid-template-rows: auto 1fr; padding: clamp(20px, 4vw, 48px); gap: 15px; }
-  .prompt { justify-self: center; margin: 0; color: #fff; font-size: clamp(23px, 3vw, 38px); font-weight: 700; text-align: center; text-shadow: 0 2px 5px #000; z-index: 1; }
+  .prompt { justify-self: center; margin: 0; color: #18312d; font-size: clamp(23px, 3vw, 38px); font-weight: 700; text-align: center; z-index: 1; }
 
   .choices { display: grid; gap: clamp(12px, 2vw, 26px); min-height: 0; }
   .level-1 .choices { grid-template-columns: 1fr; }
@@ -128,8 +128,8 @@
     75% { transform: rotate(2deg) scale(1.02); }
   }
 
-  .home-button { position: fixed; z-index: 4; top: 12px; left: 12px; border: 2px solid #ffffff80; border-radius: 999px; padding: 8px 13px; color: white; background: #00000073; font-size: 14px; font-weight: 700; }
-  .home-button:hover { background: #000000b3; }
+  .home-button { position: fixed; z-index: 4; top: 12px; left: 12px; border: 2px solid #bfd3cc; border-radius: 999px; padding: 8px 13px; color: #24594f; background: #ffffffd9; font-size: 14px; font-weight: 700; }
+  .home-button:hover { background: #fff; }
 
   @media (max-width: 600px) {
     .round { padding: 58px 12px 12px; gap: 10px; }
