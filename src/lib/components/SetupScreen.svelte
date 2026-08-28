@@ -57,7 +57,7 @@
               <small>{level.detail}</small>
             </span>
             <div class="option-preview" aria-hidden="true">
-              <LevelPreview level={level.value} topic={prepared?.topic ?? "Animals"} />
+              <LevelPreview level={level.value} topic={settings.topic} />
             </div>
           </label>
         {/each}
