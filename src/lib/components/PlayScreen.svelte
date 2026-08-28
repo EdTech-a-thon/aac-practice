@@ -43,7 +43,9 @@
     nextRound = createRound(gameTopic, settings.level);
     preloadRound(nextRound);
     speak(`Touch the ${next.correct}.`);
-    hintTimer = window.setTimeout(showHint, milliseconds(settings.hintSeconds));
+    if (settings.hintEnabled) {
+      hintTimer = window.setTimeout(showHint, milliseconds(settings.hintSeconds));
+    }
   }
 
   // Dropping the class and forcing a reflow before re-adding it restarts the
@@ -62,6 +64,10 @@
 
   function celebrate() {
     clearTimers();
+    if (!settings.rewardEnabled) {
+      beginRound(nextRound ?? createRound(gameTopic, settings.level));
+      return;
+    }
     effect = randomItem(celebrations);
     celebrationTimer = window.setTimeout(() => {
       beginRound(nextRound ?? createRound(gameTopic, settings.level));

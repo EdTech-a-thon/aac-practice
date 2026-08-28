@@ -3,8 +3,10 @@
 export const settings = $state({
   level: 1,
   topic: "Random",
+  rewardEnabled: true,
   rewardSeconds: 5,
-  hintSeconds: 5,
+  hintEnabled: true,
+  hintSeconds: 10,
 });
 
 export const levels = [

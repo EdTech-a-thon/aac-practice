@@ -68,20 +68,26 @@
     <fieldset>
       <legend>Choose timing</legend>
       <div class="timing-options">
-        <label class="timing-option">
-          <span>Visual reward</span>
+        <div class="timing-option" class:disabled={!settings.rewardEnabled}>
+          <label class="timing-heading">
+            <input type="checkbox" bind:checked={settings.rewardEnabled} />
+            <span>Visual reward</span>
+          </label>
           <span class="number-field">
-            <input type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} />
+            <input aria-label="Visual reward seconds" type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} disabled={!settings.rewardEnabled} />
             <span>seconds</span>
           </span>
-        </label>
-        <label class="timing-option">
-          <span>Wait before yellow hint</span>
+        </div>
+        <div class="timing-option" class:disabled={!settings.hintEnabled}>
+          <label class="timing-heading">
+            <input type="checkbox" bind:checked={settings.hintEnabled} />
+            <span>Yellow hint</span>
+          </label>
           <span class="number-field">
-            <input type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} />
+            <input aria-label="Yellow hint delay seconds" type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} disabled={!settings.hintEnabled} />
             <span>seconds</span>
           </span>
-        </label>
+        </div>
       </div>
     </fieldset>
 
@@ -119,8 +125,12 @@
 
   .timing-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .timing-option { display: grid; gap: 9px; border: 2px solid #d5e1dc; border-radius: 14px; padding: 13px 15px; color: #18312d; font-weight: 700; }
+  .timing-option.disabled { color: #788a85; background: #f5f7f6; }
+  .timing-heading { display: flex; align-items: center; gap: 9px; }
+  .timing-heading input { width: 19px; height: 19px; accent-color: #287769; }
   .number-field { display: flex; align-items: center; gap: 9px; color: #60736e; font-size: 14px; font-weight: 600; }
   .number-field input { width: 72px; border: 1px solid #b8cbc4; border-radius: 9px; padding: 8px 10px; color: #18312d; background: #fff; font: inherit; font-size: 16px; }
+  .number-field input:disabled { color: #91a09c; background: #e7ecea; cursor: not-allowed; }
 
   .start-button { width: 100%; border: 0; border-radius: 14px; padding: 17px; background: #f6c950; color: #172033; font-weight: 700; font-size: 18px; box-shadow: 0 5px 0 #b88d25; }
   .start-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88d25; }
