@@ -12,8 +12,9 @@
   let prepared = $state();
 
   $effect(() => {
-    prepared = createRound(pickTopic(settings.topic), settings.level);
-    preloadRound(prepared);
+    const nextRound = createRound(pickTopic(settings.topic), settings.level);
+    preloadRound(nextRound);
+    prepared = nextRound;
   });
 
   onMount(exitFullscreen);
