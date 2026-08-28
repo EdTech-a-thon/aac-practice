@@ -66,7 +66,7 @@
     </fieldset>
 
     <fieldset>
-      <legend>Choose timing</legend>
+      <legend>Configure practice</legend>
       <div class="timing-options">
         <div class="timing-option" class:disabled={!settings.rewardEnabled}>
           <label class="timing-heading">
