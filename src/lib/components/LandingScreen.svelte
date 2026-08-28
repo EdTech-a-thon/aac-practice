@@ -29,10 +29,16 @@
     <div class="hero-demo" aria-label="Example practice choice">
       <div class="demo-prompt">Touch the cat.</div>
       <div class="demo-choices">
-        <div class="demo-card target"><span aria-hidden="true">🐱</span><small>cat</small></div>
-        <div class="demo-card"><span aria-hidden="true">🐶</span><small>dog</small></div>
+        <div class="demo-card target">
+          <img src="/Animals/cat.webp" alt="Cat" />
+          <small>cat</small>
+          <div class="tap-badge" aria-hidden="true">Tap!</div>
+        </div>
+        <div class="demo-card">
+          <img src="/Animals/dog.webp" alt="Dog" />
+          <small>dog</small>
+        </div>
       </div>
-      <div class="tap-badge" aria-hidden="true">Tap!</div>
     </div>
   </section>
 
@@ -94,10 +100,11 @@
   .hero-demo { position: relative; padding: 30px; border: 1px solid #d8e3de; border-radius: 34px; background: #eef7f2; box-shadow: 0 24px 60px #315d4f1c; transform: rotate(1.5deg); }
   .demo-prompt { margin-bottom: 22px; color: #18312d; font-size: clamp(20px, 2.5vw, 28px); font-weight: 800; text-align: center; }
   .demo-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .demo-card { display: grid; place-items: center; aspect-ratio: 1; border: 3px solid transparent; border-radius: 24px; background: white; box-shadow: 0 6px 18px #315d4f18; font-size: clamp(54px, 8vw, 92px); }
-  .demo-card small { margin-top: -18px; color: #526862; font-size: 15px; font-weight: 700; }
+  .demo-card { position: relative; display: grid; grid-template-rows: 1fr auto; min-width: 0; aspect-ratio: 1; padding: 8px 8px 10px; border: 3px solid transparent; border-radius: 24px; background: white; box-shadow: 0 6px 18px #315d4f18; }
+  .demo-card img { width: 100%; height: 100%; min-height: 0; border-radius: 16px; object-fit: cover; }
+  .demo-card small { margin-top: 8px; color: #526862; font-size: 15px; font-weight: 700; text-align: center; }
   .demo-card.target { border-color: #f0bf45; background: #fff9e8; }
-  .tap-badge { position: absolute; right: -18px; bottom: 28px; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; color: #18312d; background: #f5c95f; font-family: Georgia, serif; font-size: 19px; font-style: italic; font-weight: 700; transform: rotate(-9deg); box-shadow: 0 8px 20px #18312d2a; }
+  .tap-badge { position: absolute; right: -18px; bottom: -18px; z-index: 1; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; color: #18312d; background: #f5c95f; font-family: Georgia, serif; font-size: 19px; font-style: italic; font-weight: 700; transform: rotate(-9deg); box-shadow: 0 8px 20px #18312d2a; }
 
   .how-it-works { padding: 90px max(20px, calc((100% - 1180px) / 2)); background: #f1f7f4; text-align: center; }
   h2 { font-size: clamp(35px, 4.5vw, 54px); }
