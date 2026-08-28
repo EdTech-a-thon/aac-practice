@@ -52,7 +52,7 @@
         <article class="level-card">
           <div class="level-heading">
             <span>Level {level.value}</span>
-            <strong>{level.title}</strong>
+            <strong>{level.value === 1 ? "Error-less learning" : level.title}</strong>
           </div>
           <div class="mini-screen level-{level.value}" aria-hidden="true">
             {#each previewCells[level.value] as cell}
@@ -71,13 +71,6 @@
     </div>
   </section>
 
-  <section class="ready">
-    <div>
-      <p class="eyebrow">Ready when you are</p>
-      <h2>Make the next choice feel possible.</h2>
-    </div>
-    <button class="primary-button" onclick={oncontinue}>Set up practice <span aria-hidden="true">→</span></button>
-  </section>
 </main>
 
 <style>
@@ -127,8 +120,6 @@
   .steps span { display: grid; place-items: center; flex: 0 0 34px; height: 34px; border-radius: 50%; color: #18312d; background: #f5c95f; font-weight: 800; }
   .steps p { margin: 0; color: #637670; font-size: 14px; line-height: 1.4; }
   .steps strong { display: block; margin-bottom: 4px; color: #18312d; font-size: 16px; }
-  .ready { display: flex; justify-content: space-between; align-items: center; gap: 30px; width: min(1180px, calc(100% - 40px)); margin: auto; padding: 75px 0; }
-  .ready h2 { max-width: 700px; }
 
   @media (max-width: 850px) {
     .hero { grid-template-columns: 1fr; padding-top: 35px; }
@@ -144,6 +135,5 @@
     .tap-badge { right: -8px; width: 60px; height: 60px; }
     .level-roadmap { grid-template-columns: 1fr; }
     .level-card:last-child { grid-column: auto; }
-    .ready { align-items: flex-start; flex-direction: column; }
   }
 </style>
