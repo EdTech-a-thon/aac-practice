@@ -31,7 +31,7 @@
     <button class="back-button" onclick={onback} aria-label="Back to welcome page">← Back</button>
     <div class="brand-mark" aria-hidden="true">✦</div>
     <p class="eyebrow">AAC touch practice</p>
-    <h1 id="page-title">Touch &amp; Choose</h1>
+    <h1 id="page-title">Bridge to AAC</h1>
     <p class="intro">A simple, joyful way to practice making choices on a screen.</p>
 
     <fieldset>
