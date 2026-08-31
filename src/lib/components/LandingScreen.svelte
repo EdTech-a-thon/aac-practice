@@ -9,15 +9,15 @@
 
 <main class="landing-page">
   <nav aria-label="Main navigation">
-    <a class="brand" href="#top"><span aria-hidden="true">✦</span> Touch &amp; Choose</a>
+    <a class="brand" href="#top"><span aria-hidden="true">✦</span> Bridge to AAC</a>
     <button onclick={oncontinue}>Set up practice</button>
   </nav>
 
   <section class="hero" id="top" aria-labelledby="landing-title">
     <div class="hero-copy">
       <p class="eyebrow">AAC practice for nonverbal learners</p>
-      <h1 id="landing-title">Ready for AAC,<br /><em>one touch at a time.</em></h1>
-      <p class="hero-intro">A calm, encouraging activity that helps nonverbal learners practice the find-and-touch skills an AAC app asks for.</p>
+      <h1 id="landing-title"><span>The bridge to AAC,</span><em>one touch at a time.</em></h1>
+      <p class="hero-intro">A calm, encouraging activity that carries nonverbal learners from a single picture to the find-and-touch skills an AAC app asks for.</p>
       <button class="primary-button" onclick={oncontinue}>Choose a practice level <span aria-hidden="true">→</span></button>
     </div>
 
@@ -85,7 +85,8 @@
   .hero { width: min(1180px, calc(100% - 40px)); min-height: 590px; margin: auto; display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(40px, 8vw, 100px); align-items: center; padding: 55px 0 90px; }
   .eyebrow { margin: 0 0 13px; color: #287769; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
   h1, h2 { margin: 0; letter-spacing: -.045em; line-height: 1.04; }
-  h1 { max-width: 720px; font-size: clamp(46px, 6.4vw, 78px); }
+  h1 { max-width: 720px; font-size: clamp(42px, 5vw, 70px); }
+  h1 span, h1 em { display: block; white-space: nowrap; }
   h1 em { color: #287769; font-family: Georgia, serif; font-weight: 400; }
   .hero-intro { max-width: 600px; margin: 24px 0 30px; color: #5d716c; font-size: clamp(17px, 2vw, 20px); line-height: 1.55; }
   .primary-button { border: 0; border-radius: 999px; padding: 16px 22px; color: white; background: #287769; box-shadow: 0 5px 0 #194f46; font-size: 16px; font-weight: 800; }
