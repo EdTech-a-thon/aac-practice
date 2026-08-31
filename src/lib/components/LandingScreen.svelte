@@ -15,9 +15,9 @@
 
   <section class="hero" id="top" aria-labelledby="landing-title">
     <div class="hero-copy">
-      <p class="eyebrow">For nonverbal learners</p>
+      <p class="eyebrow">AAC practice for nonverbal learners</p>
       <h1 id="landing-title">Ready for AAC,<br /><em>one touch at a time.</em></h1>
-      <p class="hero-intro">A calm, encouraging activity for nonverbal students. It builds the skills a learner needs before using an AAC app &mdash; looking at a set of pictures, finding the right one, and touching it on purpose.</p>
+      <p class="hero-intro">A calm, encouraging activity that helps nonverbal learners practice the find-and-touch skills an AAC app asks for.</p>
       <button class="primary-button" onclick={oncontinue}>Choose a practice level <span aria-hidden="true">→</span></button>
     </div>
 
@@ -37,22 +37,10 @@
     </div>
   </section>
 
-  <section class="purpose" aria-labelledby="purpose-title">
-    <p class="eyebrow">Who it&rsquo;s for</p>
-    <h2 id="purpose-title">A first step toward talking with pictures</h2>
-    <p class="section-intro">Many nonverbal students communicate using an AAC (augmentative and alternative communication) app &mdash; a grid of pictures they touch to say words. Touching the right picture is a skill in itself, and that is what this app practises.</p>
-
-    <div class="purpose-cards">
-      <article><strong>Made for nonverbal students</strong><p>No speaking, reading, or writing is needed. The learner only has to look and touch.</p></article>
-      <article><strong>Practice for AAC apps</strong><p>The same look-find-touch skill an AAC grid asks for, in a simpler activity with fewer pictures.</p></article>
-      <article><strong>Success from the very first try</strong><p>Level 1 has one picture, so the learner cannot get it wrong. Choices are added only when they are ready.</p></article>
-    </div>
-  </section>
-
   <section class="how-it-works" aria-labelledby="how-title">
     <p class="eyebrow">How it works</p>
     <h2 id="how-title">Grow at the learner’s pace</h2>
-    <p class="section-intro">Start with one clear picture, then add more choices as the learner becomes ready &mdash; building up to the busier grids of a real AAC app.</p>
+    <p class="section-intro">Start with one clear picture, then add choices until the learner is ready for a full AAC grid.</p>
 
     <label class="topic-preview-select">
       <span>Preview a topic</span>
@@ -113,12 +101,6 @@
   .demo-card.target { border-color: #f0bf45; background: #fff9e8; }
   .tap-badge { position: absolute; right: -18px; bottom: -18px; z-index: 1; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; color: #18312d; background: #f5c95f; font-family: Georgia, serif; font-size: 19px; font-style: italic; font-weight: 700; transform: rotate(-9deg); box-shadow: 0 8px 20px #18312d2a; }
 
-  .purpose { padding: 10px max(20px, calc((100% - 1180px) / 2)) 90px; text-align: center; }
-  .purpose-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: left; }
-  .purpose-cards article { padding: 24px; border: 1px solid #e2ddcd; border-radius: 20px; background: #fbf6ea; }
-  .purpose-cards strong { display: block; margin-bottom: 8px; color: #18312d; font-size: 18px; }
-  .purpose-cards p { margin: 0; color: #687b76; font-size: 15px; line-height: 1.5; }
-
   .how-it-works { padding: 90px max(20px, calc((100% - 1180px) / 2)); background: #f1f7f4; text-align: center; }
   h2 { font-size: clamp(35px, 4.5vw, 54px); }
   .section-intro { max-width: 610px; margin: 16px auto 42px; color: #60736e; font-size: 18px; line-height: 1.5; }
@@ -140,7 +122,6 @@
   @media (max-width: 850px) {
     .hero { grid-template-columns: 1fr; padding-top: 35px; }
     .hero-demo { max-width: 560px; }
-    .purpose-cards { grid-template-columns: 1fr; }
     .level-roadmap { grid-template-columns: repeat(2, 1fr); }
     .level-card:last-child { grid-column: 1 / -1; }
     .steps { grid-template-columns: 1fr; }
