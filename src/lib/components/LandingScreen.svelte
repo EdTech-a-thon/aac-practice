@@ -9,7 +9,7 @@
 
 <main class="landing-page">
   <nav aria-label="Main navigation">
-    <a class="brand" href="#top"><span aria-hidden="true">✦</span> Bridge to AAC</a>
+    <a class="brand" href="#top"><img src="/favicon.svg" alt="" width="34" height="34" /> Bridge to AAC</a>
     <button onclick={oncontinue}>Set up practice</button>
   </nav>
 
@@ -79,7 +79,7 @@
   .landing-page { min-height: 100svh; color: #18312d; background: #fffdf8; }
   nav { width: min(1180px, calc(100% - 40px)); margin: auto; padding: 22px 0; display: flex; justify-content: space-between; align-items: center; }
   .brand { display: flex; gap: 10px; align-items: center; color: #18312d; font-weight: 800; text-decoration: none; }
-  .brand span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #f5c95f; }
+  .brand img { width: 34px; height: 34px; border-radius: 11px; }
   nav button { border: 1px solid #c8d8d2; border-radius: 999px; padding: 10px 16px; color: #24594f; background: white; font-weight: 700; }
 
   .hero { width: min(1180px, calc(100% - 40px)); min-height: 590px; margin: auto; display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(40px, 8vw, 100px); align-items: center; padding: 55px 0 90px; }
