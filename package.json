@@ -7,7 +7,8 @@
     "dev": "vite dev --host 0.0.0.0 --port 8000",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 8000",
-    "optimize-images": "bash scripts/optimize-images.sh"
+    "optimize-images": "bash scripts/optimize-images.sh",
+    "optimize-videos": "bash scripts/optimize-videos.sh"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",
