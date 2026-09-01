@@ -18,7 +18,7 @@ convert_image() {
 }
 
 shopt -s nullglob
-for file in "$root"/public/*/*.{jpg,jpeg,png}; do
+for file in "$root"/static/*/*.{jpg,jpeg,png}; do
   dir="$(dirname "$file")"
   name="$(basename "$file")"
   base="${name%.*}"

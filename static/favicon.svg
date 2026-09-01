@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bridge to AAC">
+  <title>Bridge to AAC</title>
+  <clipPath id="badge"><rect width="64" height="64" rx="15"/></clipPath>
+  <g clip-path="url(#badge)">
+    <rect width="64" height="64" fill="#287769"/>
+    <!-- bridge wall, pierced by three round arches that follow the deck -->
+    <path d="M2 55V34.4Q32 20.6 62 34.4V55Z" fill="#fff6e3"/>
+    <path d="M6 55V40.5a7 7 0 0 1 14 0V55Zm19 0V37.5a7 7 0 0 1 14 0V55Zm19 0V40.5a7 7 0 0 1 14 0V55Z" fill="#287769"/>
+    <!-- arched deck, running bank to bank above the wall -->
+    <path d="M-6 33q38-24 76 0" fill="none" stroke="#fff6e3" stroke-width="8"/>
+    <!-- water -->
+    <path d="M-2 56q8-4 16 0t16 0 16 0 16 0 16 0V66H-2Z" fill="#1d5b51"/>
+    <path d="M-2 56q8-4 16 0t16 0 16 0 16 0 16 0" fill="none" stroke="#8fc4b6" stroke-width="4"/>
+  </g>
+</svg>

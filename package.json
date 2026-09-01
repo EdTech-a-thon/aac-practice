@@ -4,11 +4,17 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 8000",
+    "dev": "vite dev --host 0.0.0.0 --port 8000",
     "build": "vite build",
-    "optimize-images": "bash scripts/optimize-images.sh"
+    "preview": "vite preview --host 0.0.0.0 --port 8000",
+    "optimize-images": "bash scripts/optimize-images.sh",
+    "optimize-videos": "bash scripts/optimize-videos.sh"
   },
   "devDependencies": {
-    "vite": "latest"
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.70.3",
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "svelte": "^5.56.10",
+    "vite": "^7"
   }
 }
