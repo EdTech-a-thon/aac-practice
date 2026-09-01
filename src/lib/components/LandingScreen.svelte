@@ -1,5 +1,6 @@
 <script>
   import LevelPreview from "./LevelPreview.svelte";
+  import Footer from "./Footer.svelte";
   import { levels } from "$lib/settings.svelte.js";
   import { topicNames } from "$lib/topics.js";
 
@@ -73,6 +74,7 @@
     </div>
   </section>
 
+  <Footer />
 </main>
 
 <style>
