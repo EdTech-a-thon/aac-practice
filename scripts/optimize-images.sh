@@ -10,7 +10,10 @@ convert_image() {
   local input="$1"
   local output="$2"
   if [[ ! -f "$output" || "$input" -nt "$output" || "$0" -nt "$output" ]]; then
-    if [[ "$input" == *"/School/glue.png" ]]; then
+    if [[ "$input" == *"/Colors/"* ]]; then
+      # A solid color is the picture itself, not a background to trim away.
+      convert "$input" -resize '1200x1200>' -define webp:lossless=true "$output"
+    elif [[ "$input" == *"/School/glue.png" ]]; then
       # Remove one unsupported SVG attribute before rendering and trimming this image.
       perl -pe 's/\s*stroke-linejoin="null"//g' "$input" | \
         convert svg:- -fuzz 10% -trim +repage -resize '1200x1200>' -quality 75 "$output"
