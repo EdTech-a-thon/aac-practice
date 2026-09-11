@@ -28,8 +28,10 @@
 
 <main class="setup-page">
   <section class="setup-card" aria-labelledby="page-title">
-    <button class="back-button" onclick={onback} aria-label="Back to welcome page">← Back</button>
-    <img class="brand-mark" src="/favicon.svg" alt="" width="48" height="48" />
+    <div class="setup-header">
+      <button class="back-button" onclick={onback} aria-label="Back to welcome page">← Back</button>
+      <img class="brand-mark" src="/favicon.svg" alt="" width="48" height="48" />
+    </div>
     <p class="eyebrow">AAC touch practice</p>
     <h1 id="page-title">Bridge to AAC</h1>
     <p class="intro">A simple, joyful way to practice making choices on a screen.</p>
@@ -99,8 +101,9 @@
 <style>
   .setup-page { min-height: 100svh; display: grid; place-items: center; padding: 28px 18px; background: radial-gradient(circle at 4% 0%, #dcefe8 0, transparent 30rem), radial-gradient(circle at 100% 100%, #fff0c9 0, transparent 28rem), #f8fbf9; }
   .setup-card { width: min(100%, 760px); background: #fff; border: 1px solid #d5e1dc; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #315d4f1c; }
-  .back-button { margin: 0 0 20px; border: 0; padding: 0; color: #287769; background: transparent; font-weight: 700; }
-  .brand-mark { width: 48px; height: 48px; border-radius: 16px; }
+  .setup-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .back-button { border: 0; padding: 0; color: #287769; background: transparent; font-weight: 700; }
+  .brand-mark { display: block; flex-shrink: 0; width: 48px; height: 48px; border-radius: 16px; }
   .eyebrow { margin: 22px 0 5px; text-transform: uppercase; letter-spacing: .13em; font-size: 12px; font-weight: 700; color: #91c9d6; }
   h1 { margin: 0; color: #18312d; font-size: clamp(35px, 7vw, 52px); line-height: 1.05; letter-spacing: -.045em; }
   .intro { margin: 14px 0 31px; color: #60736e; font-size: 17px; line-height: 1.45; }

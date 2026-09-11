@@ -5,7 +5,7 @@
   import { celebrations, createRound, preloadRound, randomItem } from "$lib/game.js";
   import { settings } from "$lib/settings.svelte.js";
   import { imagePath, titleCase } from "$lib/topics.js";
-  import { cancelSpeech, speak } from "$lib/screen.js";
+  import { cancelSpeech, exitFullscreen, speak } from "$lib/screen.js";
 
   let { first, onhome } = $props();
 
@@ -57,6 +57,11 @@
     hintIndex = round.choices.indexOf(round.correct);
   }
 
+  function goHome() {
+    exitFullscreen();
+    onhome();
+  }
+
   function choose(choice) {
     if (choice === round.correct) celebrate();
     else showHint();
@@ -104,7 +109,7 @@
   </div>
 
   {#if homeOpen}
-    <HomeDialog onstay={() => (homeOpen = false)} {onhome} />
+    <HomeDialog onstay={() => (homeOpen = false)} onhome={goHome} />
   {/if}
 
   {#if effect}
