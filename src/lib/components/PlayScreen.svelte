@@ -6,6 +6,7 @@
   import { settings } from "$lib/settings.svelte.js";
   import { imagePath, titleCase } from "$lib/topics.js";
   import { cancelSpeech, exitFullscreen, speak } from "$lib/screen.js";
+  import { current, promptFor, t, wordLabel } from "$lib/i18n/index.svelte.js";
 
   let { first, onhome } = $props();
 
@@ -22,7 +23,7 @@
   let hintTimer;
   let celebrationTimer;
 
-  let prompt = $derived(`Touch the ${round.correct}.`);
+  let prompt = $derived(promptFor(round.correct));
 
   function milliseconds(value) {
     const seconds = Math.min(30, Math.max(1, Number(value) || 5));
@@ -42,7 +43,7 @@
     effect = null;
     nextRound = createRound(gameTopic, settings.level);
     preloadRound(nextRound);
-    speak(`Touch the ${next.correct}.`);
+    speak(promptFor(next.correct), current().speech);
     if (settings.hintEnabled) {
       hintTimer = window.setTimeout(showHint, milliseconds(settings.hintSeconds));
     }
@@ -85,23 +86,23 @@
   });
 </script>
 
-<main class="play-page level-{settings.level}">
-  <button class="home-button" aria-label="Return to teacher setup" onclick={() => (homeOpen = true)}>Home</button>
+<main class="play-page level-{settings.level}" lang={current().speech} dir={current().dir}>
+  <button class="home-button" aria-label={t("play.homeLabel")} onclick={() => (homeOpen = true)}>{t("play.home")}</button>
 
   <div class="round" aria-live="polite">
     <p class="prompt">{prompt}</p>
     <div class="choices" role="group" aria-label={prompt} bind:this={choicesEl}>
       {#each round.choices as choice, index (index)}
         {#if choice === null}
-          <button class="choice blank-choice" aria-label="Empty choice" onclick={() => choose(null)}></button>
+          <button class="choice blank-choice" aria-label={t("play.emptyChoice")} onclick={() => choose(null)}></button>
         {:else}
           <button
             class="choice"
             class:helpful={hintIndex === index}
-            aria-label={titleCase(choice)}
+            aria-label={titleCase(wordLabel(choice))}
             onclick={() => choose(choice)}
           >
-            <img src={imagePath(round.topic, choice)} alt={titleCase(choice)} />
+            <img src={imagePath(round.topic, choice)} alt={titleCase(wordLabel(choice))} />
           </button>
         {/if}
       {/each}
@@ -141,7 +142,9 @@
     75% { transform: rotate(2deg) scale(1.02); }
   }
 
-  .home-button { position: fixed; z-index: 4; top: 12px; left: 12px; border: 2px solid #bfd3cc; border-radius: 999px; padding: 8px 13px; color: #24594f; background: #ffffffd9; font-size: 14px; font-weight: 700; }
+  /* inset-inline-start rather than left, so the button moves to the other
+     corner in a right-to-left language and never covers the first picture. */
+  .home-button { position: fixed; z-index: 4; top: 12px; inset-inline-start: 12px; border: 2px solid #bfd3cc; border-radius: 999px; padding: 8px 13px; color: #24594f; background: #ffffffd9; font-size: 14px; font-weight: 700; }
   .home-button:hover { background: #fff; }
 
   @media (max-width: 600px) {
@@ -149,6 +152,6 @@
     .prompt { font-size: 23px; }
     .level-4 .choices { grid-template-columns: 1fr; grid-template-rows: repeat(3, 1fr); }
     .choice { border-radius: 18px; padding: 12px; }
-    .home-button { top: 10px; left: 10px; }
+    .home-button { top: 10px; inset-inline-start: 10px; }
   }
 </style>

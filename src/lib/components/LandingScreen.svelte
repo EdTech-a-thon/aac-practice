@@ -3,6 +3,7 @@
   import Footer from "./Footer.svelte";
   import { levels } from "$lib/settings.svelte.js";
   import { topicNames } from "$lib/topics.js";
+  import { t, topicLabel } from "$lib/i18n/index.svelte.js";
 
   let { oncontinue } = $props();
   let previewTopic = $state("Animals");
@@ -47,7 +48,7 @@
       <span>Preview a topic</span>
       <select bind:value={previewTopic}>
         {#each topicNames as topic (topic)}
-          <option value={topic}>{topic}</option>
+          <option value={topic}>{topicLabel(topic)}</option>
         {/each}
       </select>
     </label>
@@ -57,12 +58,12 @@
         <article class="level-card">
           <div class="level-heading">
             <span>Level {level.value}</span>
-            <strong>{level.value === 1 ? "Error-less learning" : level.title}</strong>
+            <strong>{level.value === 1 ? t("level.1.errorless") : t(level.title)}</strong>
           </div>
           <div class="mini-screen level-{level.value}" aria-hidden="true">
             <LevelPreview level={level.value} topic={previewTopic} />
           </div>
-          <p>{level.detail}</p>
+          <p>{t(level.detail)}</p>
         </article>
       {/each}
     </div>

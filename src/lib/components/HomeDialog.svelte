@@ -1,14 +1,16 @@
 <script>
+  import { t } from "$lib/i18n/index.svelte.js";
+
   let { onstay, onhome } = $props();
 </script>
 
 <div class="home-dialog" role="dialog" aria-modal="true" aria-labelledby="home-title">
   <section>
-    <h2 id="home-title">Leave practice?</h2>
-    <p>This will return to the teacher setup screen.</p>
+    <h2 id="home-title">{t("dialog.title")}</h2>
+    <p>{t("dialog.body")}</p>
     <div>
-      <button class="dialog-stay" onclick={onstay}>Keep Playing</button>
-      <button class="dialog-home" onclick={onhome}>Go Home</button>
+      <button class="dialog-stay" onclick={onstay}>{t("dialog.stay")}</button>
+      <button class="dialog-home" onclick={onhome}>{t("dialog.home")}</button>
     </div>
   </section>
 </div>

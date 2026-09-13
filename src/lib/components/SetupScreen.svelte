@@ -3,10 +3,19 @@
   import { createRound, pickTopic, preloadRound } from "$lib/game.js";
   import { levels, settings } from "$lib/settings.svelte.js";
   import { topicNames } from "$lib/topics.js";
-  import { enterFullscreen, exitFullscreen } from "$lib/screen.js";
+  import { baseLanguage, enterFullscreen, exitFullscreen } from "$lib/screen.js";
+  import { current, language, languageOptions, setLanguage, t, topicLabel } from "$lib/i18n/index.svelte.js";
   import LevelPreview from "./LevelPreview.svelte";
 
   let { onstart, onback } = $props();
+
+  // Browsers fill the voice list asynchronously, so an empty list means "not
+  // known yet" rather than "none installed" — only warn once it has arrived.
+  let voices = $state([]);
+  let missingVoice = $derived(
+    voices.length > 0 &&
+      !voices.some((voice) => baseLanguage(voice.lang) === baseLanguage(current().speech)),
+  );
 
   // Built ahead of the tap so the first round never waits on a download.
   let prepared = $state();
@@ -17,7 +26,13 @@
     prepared = nextRound;
   });
 
-  onMount(exitFullscreen);
+  onMount(() => {
+    exitFullscreen();
+    const readVoices = () => (voices = window.speechSynthesis?.getVoices() ?? []);
+    readVoices();
+    window.speechSynthesis?.addEventListener("voiceschanged", readVoices);
+    return () => window.speechSynthesis?.removeEventListener("voiceschanged", readVoices);
+  });
 
   function start() {
     // Fullscreen has to be requested from the tap itself to count as a gesture.
@@ -26,38 +41,56 @@
   }
 </script>
 
-<main class="setup-page">
+<main class="setup-page" lang={current().speech} dir={current().dir}>
   <section class="setup-card" aria-labelledby="page-title">
     <div class="setup-header">
-      <button class="back-button" onclick={onback} aria-label="Back to welcome page">← Back</button>
+      <button class="back-button" onclick={onback} aria-label={t("setup.backLabel")}>{t("setup.back")}</button>
       <img class="brand-mark" src="/favicon.svg" alt="" width="48" height="48" />
     </div>
-    <p class="eyebrow">AAC touch practice</p>
+    <p class="eyebrow">{t("setup.eyebrow")}</p>
     <h1 id="page-title">Bridge to AAC</h1>
-    <p class="intro">A simple, joyful way to practice making choices on a screen.</p>
+    <p class="intro">{t("setup.intro")}</p>
 
     <fieldset>
-      <legend>Choose a picture topic</legend>
+      <legend>{t("setup.language")}</legend>
       <label class="select-wrap">
-        <select aria-label="Picture topic" bind:value={settings.topic}>
-          <option value="Random">Random</option>
+        <select
+          aria-label={t("setup.languageLabel")}
+          value={language.code}
+          onchange={(event) => setLanguage(event.currentTarget.value)}
+        >
+          {#each languageOptions as option (option.code)}
+            <option value={option.code}>{option.name}</option>
+          {/each}
+        </select>
+      </label>
+      {#if missingVoice}
+        <p class="voice-note">{t("setup.noVoice", { language: current().name })}</p>
+      {/if}
+    </fieldset>
+
+    <fieldset>
+      <legend>{t("setup.topic")}</legend>
+      <label class="select-wrap">
+        <select aria-label={t("setup.topicLabel")} bind:value={settings.topic}>
+          <option value="Random">{topicLabel("Random")}</option>
           {#each topicNames as topic (topic)}
-            <option value={topic}>{topic}</option>
+            <option value={topic}>{topicLabel(topic)}</option>
           {/each}
         </select>
       </label>
     </fieldset>
 
     <fieldset>
-      <legend>Choose a level</legend>
+      <legend>{t("setup.level")}</legend>
       <div class="level-list">
         {#each levels as level (level.value)}
           <label class="level-option" class:selected={settings.level === level.value}>
             <input type="radio" name="level" value={level.value} bind:group={settings.level} />
             <span class="level-number">{level.value}</span>
             <span class="level-copy">
-              <strong>{level.title}</strong>
-              <small>{level.detail}</small>
+              <strong>{t(level.title)}</strong>
+              <small>{t(level.detail)}</small>
             </span>
             <div class="option-preview" aria-hidden="true">
               <LevelPreview level={level.value} topic={settings.topic} />
@@ -68,33 +101,33 @@
     </fieldset>
 
     <fieldset>
-      <legend>Configure practice</legend>
+      <legend>{t("setup.practice")}</legend>
       <div class="timing-options">
         <div class="timing-option" class:disabled={!settings.rewardEnabled}>
           <label class="timing-heading">
             <input type="checkbox" bind:checked={settings.rewardEnabled} />
-            <span>Show visual reward for</span>
+            <span>{t("setup.reward")}</span>
           </label>
           <span class="number-field">
-            <input aria-label="Visual reward seconds" type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} disabled={!settings.rewardEnabled} />
-            <span>seconds</span>
+            <input aria-label={t("setup.rewardLabel")} type="number" min="1" max="30" step="1" bind:value={settings.rewardSeconds} disabled={!settings.rewardEnabled} />
+            <span>{t("setup.seconds")}</span>
           </span>
         </div>
         <div class="timing-option" class:disabled={!settings.hintEnabled}>
           <label class="timing-heading">
             <input type="checkbox" bind:checked={settings.hintEnabled} />
-            <span>Provide hint after</span>
+            <span>{t("setup.hint")}</span>
           </label>
           <span class="number-field">
-            <input aria-label="Yellow hint delay seconds" type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} disabled={!settings.hintEnabled} />
-            <span>seconds</span>
+            <input aria-label={t("setup.hintLabel")} type="number" min="1" max="30" step="1" bind:value={settings.hintSeconds} disabled={!settings.hintEnabled} />
+            <span>{t("setup.seconds")}</span>
           </span>
         </div>
       </div>
     </fieldset>
 
-    <button class="start-button" onclick={start}>Start practice <span aria-hidden="true">→</span></button>
-    <p class="setup-note">The activity continues until you choose Home.</p>
+    <button class="start-button" onclick={start}>{t("setup.start")} <span aria-hidden="true">{current().dir === "rtl" ? "←" : "→"}</span></button>
+    <p class="setup-note">{t("setup.note")}</p>
   </section>
 </main>
 
@@ -122,9 +155,13 @@
   .level-option small { margin-top: 2px; font-size: 13px; }
   .option-preview { display: block; width: 116px; height: 64px; padding: 5px; border-radius: 10px; background: #e9f0ed; }
 
+  /* The inline properties keep the chevron and its padding on the trailing
+     edge of the box in a right-to-left language. */
   .select-wrap { display: block; position: relative; }
-  .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding: 14px 42px 14px 15px; background: #fff; color: #18312d; font-weight: 600; }
-  .select-wrap::after { content: "⌄"; position: absolute; right: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
+  .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding-block: 14px; padding-inline: 15px 42px; background: #fff; color: #18312d; font-weight: 600; }
+  .select-wrap::after { content: "⌄"; position: absolute; inset-inline-end: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
+
+  .voice-note { margin: 10px 0 0; color: #8a6d1f; background: #fdf5dd; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.45; }
 
   .timing-options { display: grid; gap: 14px; }
   .timing-option { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #18312d; font-weight: 700; }

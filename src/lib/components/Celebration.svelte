@@ -1,15 +1,16 @@
 <script>
   import { celebrationAudio, celebrationVideo } from "$lib/game.js";
+  import { t } from "$lib/i18n/index.svelte.js";
 
   let { effect } = $props();
 </script>
 
 <section class="reinforcement">
   <!-- svelte-ignore a11y_media_has_caption -->
-  <video autoplay muted playsinline loop aria-label="Celebration animation">
+  <video autoplay muted playsinline loop aria-label={t("play.celebrateLabel")}>
     <source src={celebrationVideo(effect)} type="video/mp4" />
   </video>
-  <p>Wonderful!</p>
+  <p>{t("play.celebrate")}</p>
   <audio autoplay>
     <source src={celebrationAudio(effect)} type="audio/mpeg" />
   </audio>
