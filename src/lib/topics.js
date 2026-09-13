@@ -10,10 +10,12 @@ export const topics = {
   People: ["astronaut", "builder", "cook", "dancer", "doctor", "farmer", "firefighter", "painter", "pilot", "scientist"],
   School: ["backpack", "bus", "crayons", "desk", "eraser", "glue", "paper", "pencil", "scissors", "tape"],
   Toys: ["baby", "ball", "bike", "bubbles", "dinosaur", "food", "lego", "playdoh", "shovel", "train", "truck"],
-  Shapes: ["circle", "square", "rectangle", "triangle", "oval", "diamond", "star", "heart", "pentagon", "hexagon"],
-  // Each adjective is paired with its opposite, so a round asks the learner to
-  // compare two pictures that differ in only one way.
-  Adjectives: ["big", "small", "tall", "short", "hot", "cold", "full", "empty", "open", "closed", "happy", "sad"],
+  Shapes: ["circle", "square", "rectangle", "triangle", "oval", "diamond", "star", "pentagon", "hexagon"],
+  // Opposites in pairs — hot/cold, full/empty, clean/dirty, happy/sad. Each pair
+  // is the same drawing with one thing changed, so the word is what tells them
+  // apart. Words only belong here when a single picture can show them: big and
+  // tall need a second picture to compare against, so they are not in the set.
+  Adjectives: ["hot", "cold", "full", "empty", "clean", "dirty", "happy", "sad"],
   Numbers: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
   Letters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],

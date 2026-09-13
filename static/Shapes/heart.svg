@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Heart">
-  <g fill="#287769">
-    <circle cx="135" cy="145" r="90"/>
-    <circle cx="265" cy="145" r="90"/>
-    <polygon points="45,145 355,145 200,360"/>
-  </g>
-</svg>
