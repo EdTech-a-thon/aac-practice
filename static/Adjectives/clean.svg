@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Clean">
-  <path d="M150 60 C170 95, 230 95, 250 60 L310 90 L345 165 L280 195 L280 350 L120 350 L120 195 L55 165 L90 90 Z" fill="#fff" stroke="#18312d" stroke-width="12" stroke-linejoin="round"/>
-  <g fill="#f6c950">
-    <path d="M345 36 L353 57 L374 65 L353 73 L345 94 L337 73 L316 65 L337 57 Z"/>
-    <path d="M56 56 L61 70 L75 75 L61 80 L56 94 L51 80 L37 75 L51 70 Z"/>
-  </g>
-</svg>

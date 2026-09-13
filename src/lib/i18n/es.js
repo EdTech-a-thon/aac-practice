@@ -174,8 +174,8 @@ export default {
     cold: ["frío", "el frío"],
     full: ["lleno", "el lleno"],
     empty: ["vacío", "el vacío"],
-    clean: ["limpio", "el limpio"],
-    dirty: ["sucio", "el sucio"],
+    on: ["encendido", "la luz que está encendida"],
+    off: ["apagado", "la luz que está apagada"],
     happy: ["feliz", "el feliz"],
     sad: ["triste", "el triste"],
 

@@ -179,8 +179,8 @@ export default {
     cold: ["cold", "the cold one"],
     full: ["full", "the full one"],
     empty: ["empty", "the empty one"],
-    clean: ["clean", "the clean one"],
-    dirty: ["dirty", "the dirty one"],
+    on: ["on", "the light that is on"],
+    off: ["off", "the light that is off"],
     happy: ["happy", "the happy one"],
     sad: ["sad", "the sad one"],
 
