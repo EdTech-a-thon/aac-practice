@@ -2,21 +2,27 @@
   // The shell the About and Privacy pages share: the site nav, a column of
   // prose cards, and the EdTech-a-thon footer.
   import Footer from "./Footer.svelte";
+  import LanguagePicker from "./LanguagePicker.svelte";
+  import { current, t } from "$lib/i18n/index.svelte.js";
 
+  // `title` and `intro` are translation keys — the wording lives in src/lib/i18n.
   let { title, intro, children } = $props();
 </script>
 
-<svelte:head><title>{title} · Bridge to AAC</title></svelte:head>
+<svelte:head><title>{t(title)} · Bridge to AAC</title></svelte:head>
 
 <div class="info-page">
-  <nav aria-label="Main navigation">
+  <nav aria-label={t("nav.label")}>
     <a class="brand" href="/"><img src="/favicon.svg" alt="" width="34" height="34" /> Bridge to AAC</a>
-    <a class="back" href="/">← Back to practice</a>
+    <div class="nav-actions">
+      <a class="back" href="/"><span aria-hidden="true">{current().dir === "rtl" ? "→" : "←"}</span> {t("nav.back")}</a>
+      <LanguagePicker />
+    </div>
   </nav>
 
   <main>
-    <h1>{title}</h1>
-    <p class="lede">{intro}</p>
+    <h1>{t(title)}</h1>
+    <p class="lede">{t(intro)}</p>
     {@render children()}
   </main>
 
@@ -28,6 +34,7 @@
   nav { width: min(860px, calc(100% - 40px)); margin: auto; padding: 22px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .brand { display: flex; gap: 10px; align-items: center; color: #18312d; font-weight: 800; text-decoration: none; }
   .brand img { width: 34px; height: 34px; border-radius: 11px; }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
   .back { border: 1px solid #c8d8d2; border-radius: 999px; padding: 9px 15px; color: #24594f; background: white; font-size: 14px; font-weight: 700; text-decoration: none; }
   .back:hover { border-color: #4d9b8c; background: #eef7f3; }
 
