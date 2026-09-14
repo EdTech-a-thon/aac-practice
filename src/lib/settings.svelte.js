@@ -3,6 +3,8 @@
 export const settings = $state({
   level: 1,
   topic: "Random",
+  showPictureNames: false,
+  pictureBackground: null,
   rewardEnabled: true,
   rewardSeconds: 5,
   hintEnabled: true,

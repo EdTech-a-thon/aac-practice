@@ -4,7 +4,8 @@
   import { levels, settings } from "$lib/settings.svelte.js";
   import { topicNames } from "$lib/topics.js";
   import { baseLanguage, enterFullscreen, exitFullscreen } from "$lib/screen.js";
-  import { current, language, languageOptions, setLanguage, t, topicLabel } from "$lib/i18n/index.svelte.js";
+  import { current, t, topicLabel } from "$lib/i18n/index.svelte.js";
+  import LanguagePicker from "./LanguagePicker.svelte";
   import LevelPreview from "./LevelPreview.svelte";
 
   let { onstart, onback } = $props();
@@ -41,33 +42,19 @@
   }
 </script>
 
-<main class="setup-page" lang={current().speech} dir={current().dir}>
+<main class="setup-page">
   <section class="setup-card" aria-labelledby="page-title">
     <div class="setup-header">
       <button class="back-button" onclick={onback} aria-label={t("setup.backLabel")}>{t("setup.back")}</button>
-      <img class="brand-mark" src="/favicon.svg" alt="" width="48" height="48" />
+      <LanguagePicker />
     </div>
     <p class="eyebrow">{t("setup.eyebrow")}</p>
     <h1 id="page-title">Bridge to AAC</h1>
     <p class="intro">{t("setup.intro")}</p>
 
-    <fieldset>
-      <legend>{t("setup.language")}</legend>
-      <label class="select-wrap">
-        <select
-          aria-label={t("setup.languageLabel")}
-          value={language.code}
-          onchange={(event) => setLanguage(event.currentTarget.value)}
-        >
-          {#each languageOptions as option (option.code)}
-            <option value={option.code}>{option.name}</option>
-          {/each}
-        </select>
-      </label>
-      {#if missingVoice}
-        <p class="voice-note">{t("setup.noVoice", { language: current().name })}</p>
-      {/if}
-    </fieldset>
+    {#if missingVoice}
+      <p class="voice-note">{t("setup.noVoice", { language: current().name })}</p>
+    {/if}
 
     <fieldset>
       <legend>{t("setup.topic")}</legend>
@@ -102,9 +89,32 @@
 
     <fieldset>
       <legend>{t("setup.practice")}</legend>
-      <div class="timing-options">
-        <div class="timing-option" class:disabled={!settings.rewardEnabled}>
-          <label class="timing-heading">
+      <div class="practice-options">
+        <div class="practice-option">
+          <label class="option-heading">
+            <input type="checkbox" bind:checked={settings.showPictureNames} />
+            <span>{t("setup.pictureNames")}</span>
+          </label>
+        </div>
+
+        <!-- One click on the swatch sets the colour; the way back to the
+             default only appears once there is something to undo. -->
+        <div class="practice-option">
+          <label class="option-heading colour-heading">
+            <input
+              type="color"
+              value={settings.pictureBackground ?? "#e4e7ea"}
+              oninput={(event) => (settings.pictureBackground = event.currentTarget.value)}
+            />
+            <span>{t("setup.pictureBackground")}</span>
+          </label>
+          {#if settings.pictureBackground !== null}
+            <button class="reset-background" onclick={() => (settings.pictureBackground = null)}>{t("setup.backgroundDefault")}</button>
+          {/if}
+        </div>
+
+        <div class="practice-option" class:disabled={!settings.rewardEnabled}>
+          <label class="option-heading">
             <input type="checkbox" bind:checked={settings.rewardEnabled} />
             <span>{t("setup.reward")}</span>
           </label>
@@ -113,8 +123,9 @@
             <span>{t("setup.seconds")}</span>
           </span>
         </div>
-        <div class="timing-option" class:disabled={!settings.hintEnabled}>
-          <label class="timing-heading">
+
+        <div class="practice-option" class:disabled={!settings.hintEnabled}>
+          <label class="option-heading">
             <input type="checkbox" bind:checked={settings.hintEnabled} />
             <span>{t("setup.hint")}</span>
           </label>
@@ -136,7 +147,6 @@
   .setup-card { width: min(100%, 760px); background: #fff; border: 1px solid #d5e1dc; border-radius: 26px; padding: clamp(26px, 5vw, 46px); box-shadow: 0 20px 60px #315d4f1c; }
   .setup-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .back-button { border: 0; padding: 0; color: #287769; background: transparent; font-weight: 700; }
-  .brand-mark { display: block; flex-shrink: 0; width: 48px; height: 48px; border-radius: 16px; }
   .eyebrow { margin: 22px 0 5px; text-transform: uppercase; letter-spacing: .13em; font-size: 12px; font-weight: 700; color: #91c9d6; }
   h1 { margin: 0; color: #18312d; font-size: clamp(35px, 7vw, 52px); line-height: 1.05; letter-spacing: -.045em; }
   .intro { margin: 14px 0 31px; color: #60736e; font-size: 17px; line-height: 1.45; }
@@ -161,20 +171,25 @@
   .select-wrap select { width: 100%; appearance: none; border: 2px solid #d5e1dc; border-radius: 13px; padding-block: 14px; padding-inline: 15px 42px; background: #fff; color: #18312d; font-weight: 600; }
   .select-wrap::after { content: "⌄"; position: absolute; inset-inline-end: 16px; top: 8px; color: #287769; font-size: 23px; pointer-events: none; }
 
-  .voice-note { margin: 10px 0 0; color: #8a6d1f; background: #fdf5dd; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.45; }
+  .voice-note { margin: 0 0 28px; color: #8a6d1f; background: #fdf5dd; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.45; }
 
-  .timing-options { display: grid; gap: 14px; }
-  .timing-option { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #18312d; font-weight: 700; }
-  .timing-option.disabled { color: #788a85; }
-  .timing-heading { display: flex; align-items: center; gap: 9px; }
-  .timing-heading input { width: 19px; height: 19px; accent-color: #287769; }
+  /* The four practice settings are one list of rows, each a control and the
+     words that go with it. */
+  .practice-options { display: grid; gap: 14px; }
+  .practice-option { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #18312d; font-weight: 700; }
+  .practice-option.disabled { color: #788a85; }
+  .option-heading { display: flex; align-items: center; gap: 9px; }
+  .option-heading input[type="checkbox"] { width: 19px; height: 19px; accent-color: #287769; }
+  .colour-heading input { flex-shrink: 0; width: 30px; height: 26px; border: 1px solid #b8cbc4; border-radius: 6px; padding: 2px; background: #fff; cursor: pointer; }
+  .reset-background { border: 1px solid #b8cbc4; border-radius: 9px; padding: 5px 11px; background: #fff; color: #24594f; font-size: 13px; font-weight: 600; }
+  .reset-background:hover { border-color: #4d9b8c; background: #eef7f3; }
   .number-field { display: flex; align-items: center; gap: 9px; color: #60736e; font-size: 14px; font-weight: 600; }
   .number-field input { width: 72px; border: 1px solid #b8cbc4; border-radius: 9px; padding: 8px 10px; color: #18312d; background: #fff; font: inherit; font-size: 16px; }
   .number-field input:disabled { color: #91a09c; background: #e7ecea; cursor: not-allowed; }
 
   .start-button { width: 100%; border: 0; border-radius: 14px; padding: 17px; background: #f6c950; color: #172033; font-weight: 700; font-size: 18px; box-shadow: 0 5px 0 #b88d25; }
   .start-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88d25; }
-  .start-button span { margin-left: 8px; font-size: 24px; vertical-align: -1px; }
+  .start-button span { margin-inline-start: 8px; font-size: 24px; vertical-align: -1px; }
   .setup-note { margin: 20px 0 0; text-align: center; color: #788a85; font-size: 13px; }
 
   @media (max-width: 560px) {

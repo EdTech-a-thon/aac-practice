@@ -1,11 +1,15 @@
 <!-- The EdTech-a-thon footer, shared with the group's other classroom tools. -->
+<script>
+  import { t } from "$lib/i18n/index.svelte.js";
+</script>
+
 <footer>
   <a class="built-by" href="https://edtechathon.com" target="_blank" rel="noopener noreferrer">
     <img src="/edtechathon-logo.svg" alt="" width="24" height="24" />
-    Built by the EdTech-a-thon
+    {t("footer.builtBy")}
   </a>
-  <a href="/about">about</a>
-  <a href="/privacy">privacy</a>
+  <a href="/about">{t("footer.about")}</a>
+  <a href="/privacy">{t("footer.privacy")}</a>
 </footer>
 
 <style>
