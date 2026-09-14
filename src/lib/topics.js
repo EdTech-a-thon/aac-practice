@@ -19,6 +19,11 @@ export const topics = {
   Numbers: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
   Letters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+  Weather: ["clouds", "lightning", "rain", "rainbow", "snow", "sun", "wind"],
+  Nature: ["flower", "grass", "leaf", "mountain", "river", "rocks", "sand", "tree"],
+  // In value order rather than alphabetical, because that is the order a class
+  // learns them in.
+  "US-Coins": ["penny", "nickel", "dime", "quarter"],
 };
 
 export const topicNames = Object.keys(topics);

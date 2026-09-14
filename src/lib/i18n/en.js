@@ -71,6 +71,9 @@ export default {
     Adjectives: "Adjectives",
     Numbers: "Numbers",
     Letters: "Letters",
+    Weather: "Weather",
+    Nature: "Nature",
+    "US-Coins": "US Coins",
   },
 
   words: {
@@ -224,5 +227,26 @@ export default {
     x: "X",
     y: "Y",
     z: "Z",
+    clouds: ["clouds", "the clouds"],
+    lightning: ["lightning", "the lightning"],
+    rain: ["rain", "the rain"],
+    rainbow: ["rainbow", "the rainbow"],
+    snow: ["snow", "the snow"],
+    sun: ["sun", "the sun"],
+    wind: ["wind", "the wind"],
+
+    flower: ["flower", "the flower"],
+    grass: ["grass", "the grass"],
+    leaf: ["leaf", "the leaf"],
+    mountain: ["mountain", "the mountain"],
+    river: ["river", "the river"],
+    rocks: ["rocks", "the rocks"],
+    sand: ["sand", "the sand"],
+    tree: ["tree", "the tree"],
+
+    penny: ["penny", "the penny"],
+    nickel: ["nickel", "the nickel"],
+    dime: ["dime", "the dime"],
+    quarter: ["quarter", "the quarter"],
   },
 };

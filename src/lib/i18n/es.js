@@ -66,6 +66,9 @@ export default {
     Adjectives: "Adjetivos",
     Numbers: "Números",
     Letters: "Letras",
+    Weather: "El tiempo",
+    Nature: "Naturaleza",
+    "US-Coins": "Monedas de EE. UU.",
   },
 
   words: {
@@ -189,5 +192,27 @@ export default {
     eight: ["8", "el número ocho"],
     nine: ["9", "el número nueve"],
     ten: ["10", "el número diez"],
+    clouds: ["nubes", "las nubes"],
+    lightning: ["relámpago", "el relámpago"],
+    rain: ["lluvia", "la lluvia"],
+    rainbow: ["arcoíris", "el arcoíris"],
+    snow: ["nieve", "la nieve"],
+    sun: ["sol", "el sol"],
+    wind: ["viento", "el viento"],
+
+    flower: ["flor", "la flor"],
+    grass: ["césped", "el césped"],
+    leaf: ["hoja", "la hoja"],
+    mountain: ["montaña", "la montaña"],
+    river: ["río", "el río"],
+    rocks: ["rocas", "las rocas"],
+    sand: ["arena", "la arena"],
+    tree: ["árbol", "el árbol"],
+
+    // The coins keep their US names, said the way a bilingual classroom says them.
+    penny: ["un centavo", "la moneda de un centavo"],
+    nickel: ["cinco centavos", "la moneda de cinco centavos"],
+    dime: ["diez centavos", "la moneda de diez centavos"],
+    quarter: ["veinticinco centavos", "la moneda de veinticinco centavos"],
   },
 };
