@@ -15,7 +15,7 @@
 
 <main class="landing-page">
   <nav aria-label={t("nav.label")}>
-    <a class="brand" href="#top"><img src="/favicon.svg" alt="" width="34" height="34" /> Bridge to AAC</a>
+    <a class="brand" href="#top"><img src="/favicon.svg" alt="" width="34" height="34" /> Picture Practice</a>
     <div class="nav-actions">
       <button onclick={oncontinue}>{t("nav.setup")}</button>
       <LanguagePicker />
@@ -27,6 +27,7 @@
       <p class="eyebrow">{t("landing.eyebrow")}</p>
       <h1 id="landing-title"><span>{t("landing.title")}</span><em>{t("landing.titleEmphasis")}</em></h1>
       <p class="hero-intro">{t("landing.intro")}</p>
+      <p class="former-name" role="status">{t("landing.formerName")}</p>
       <button class="primary-button" onclick={oncontinue}>{t("landing.cta")} <span aria-hidden="true">{arrow}</span></button>
     </div>
 
@@ -102,6 +103,12 @@
   h1 span, h1 em { display: block; text-wrap: balance; }
   h1 em { color: #287769; font-family: Georgia, serif; font-weight: 400; }
   .hero-intro { max-width: 600px; margin: 24px 0 30px; color: #5d716c; font-size: clamp(17px, 2vw, 20px); line-height: 1.55; }
+  .former-name { position: fixed; top: 16px; left: 50%; z-index: 20; width: max-content; max-width: calc(100vw - 32px); margin: 0; padding: 11px 18px; border: 2px solid #e3b548; border-radius: 999px; color: #18312d; background: #fff5d6f7; box-shadow: 0 10px 32px #18312d33; font-size: 15px; font-weight: 800; text-align: center; pointer-events: none; transform: translateX(-50%); animation: former-name-notice 10.8s ease-in-out forwards; }
+  @keyframes former-name-notice {
+    0% { opacity: 0; transform: translate(-50%, -8px); }
+    3%, 92.5% { opacity: 1; transform: translate(-50%, 0); }
+    100% { visibility: hidden; opacity: 0; transform: translate(-50%, -4px); }
+  }
   .primary-button { border: 0; border-radius: 999px; padding: 16px 22px; color: white; background: #287769; box-shadow: 0 5px 0 #194f46; font-size: 16px; font-weight: 800; }
   .primary-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #194f46; }
   .primary-button span { padding-inline-start: 8px; font-size: 20px; }
@@ -132,6 +139,14 @@
   .steps span { display: grid; place-items: center; flex: 0 0 34px; height: 34px; border-radius: 50%; color: #18312d; background: #f5c95f; font-weight: 800; }
   .steps p { margin: 0; color: #637670; font-size: 14px; line-height: 1.4; }
   .steps strong { display: block; margin-bottom: 4px; color: #18312d; font-size: 16px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .former-name { animation-name: former-name-notice-reduced; }
+    @keyframes former-name-notice-reduced {
+      0%, 92.5% { opacity: 1; transform: translate(-50%, 0); }
+      100% { visibility: hidden; opacity: 0; transform: translate(-50%, 0); }
+    }
+  }
 
   @media (max-width: 850px) {
     .hero { grid-template-columns: 1fr; padding-top: 35px; }

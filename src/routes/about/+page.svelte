@@ -32,7 +32,7 @@
   <section aria-labelledby="feedback-title">
     <h2 id="feedback-title">{t("about.feedback.title")}</h2>
     <p>{t("about.feedback.body")}</p>
-    <a class="email-button" href="mailto:support@bridgetoaac.com?subject=Bridge%20to%20AAC%20feedback">
+    <a class="email-button" href="mailto:support@bridgetoaac.com?subject=Picture%20Practice%20feedback">
       {t("about.feedback.button")}
     </a>
   </section>

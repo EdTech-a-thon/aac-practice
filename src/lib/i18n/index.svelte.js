@@ -7,7 +7,8 @@ import es from "./es.js";
 import ru from "./ru.js";
 
 const languages = { en, es, ru, ar };
-const STORAGE_KEY = "bridge-to-aac-language";
+const STORAGE_KEY = "picture-practice-language";
+const LEGACY_STORAGE_KEY = "bridge-to-aac-language";
 
 export const languageOptions = Object.entries(languages).map(([code, language]) => ({
   code,
@@ -22,6 +23,14 @@ function savedCode() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved && languages[saved]) return saved;
+
+    // Keep the language selected before the Picture Practice rebrand.
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (legacy && languages[legacy]) {
+      localStorage.setItem(STORAGE_KEY, legacy);
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+      return legacy;
+    }
   } catch {
     // Private browsing can refuse local storage. Fall through to the browser's
     // own language, which is a better guess than English.
@@ -47,6 +56,7 @@ export function setLanguage(code) {
   language.code = code;
   try {
     localStorage.setItem(STORAGE_KEY, code);
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
   } catch {
     // The choice still applies for this session, it just will not be remembered.
   }

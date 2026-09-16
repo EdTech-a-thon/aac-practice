@@ -1,7 +1,7 @@
 {
-  "name": "Bridge to AAC",
-  "short_name": "Bridge to AAC",
-  "description": "A simple, joyful way for nonverbal learners to practice the choices an AAC app asks them to make.",
+  "name": "Picture Practice",
+  "short_name": "Picture Practice",
+  "description": "A simple, joyful way for nonverbal learners to practice selecting an option on a screen.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fffdf8",
