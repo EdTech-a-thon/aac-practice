@@ -49,7 +49,7 @@
       <LanguagePicker />
     </div>
     <p class="eyebrow">{t("setup.eyebrow")}</p>
-    <h1 id="page-title">Bridge to AAC</h1>
+    <h1 id="page-title">Picture Practice</h1>
     <p class="intro">{t("setup.intro")}</p>
 
     {#if missingVoice}

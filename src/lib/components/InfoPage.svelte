@@ -9,11 +9,11 @@
   let { title, intro, children } = $props();
 </script>
 
-<svelte:head><title>{t(title)} · Bridge to AAC</title></svelte:head>
+<svelte:head><title>{t(title)} · Picture Practice</title></svelte:head>
 
 <div class="info-page">
   <nav aria-label={t("nav.label")}>
-    <a class="brand" href="/"><img src="/favicon.svg" alt="" width="34" height="34" /> Bridge to AAC</a>
+    <a class="brand" href="/"><img src="/favicon.svg" alt="" width="34" height="34" /> Picture Practice</a>
     <div class="nav-actions">
       <a class="back" href="/"><span aria-hidden="true">{current().dir === "rtl" ? "→" : "←"}</span> {t("nav.back")}</a>
       <LanguagePicker />
